@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>La phrase interrogative et le corps humain</title>
+  <style>
+    :root {
+      --primary: #1e3a8a;
+      --primary-light: #3b82f6;
+      --accent: #0f766e;
+      --bg: #f1f5f9;
+      --card: #ffffff;
+      --text: #0f172a;
+      --muted: #475569;
+      --border: #cbd5e1;
+      --success-bg: #dcfce7;
+      --success-text: #166534;
+      --error-bg: #fee2e2;
+      --error-text: #991b1b;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+      padding: 16px;
+    }
+
+    .container {
+      max-width: 860px;
+      margin: 0 auto;
+    }
+
+    header {
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      color: #ffffff;
+      padding: 22px 20px;
+      border-radius: 14px;
+      margin-bottom: 18px;
+      box-shadow: 0 4px 12px rgba(30, 58, 138, 0.15);
+    }
+
+    header h1 {
+      font-size: 1.45rem;
+      margin-bottom: 6px;
+    }
+
+    header p {
+      font-size: 0.95rem;
+      opacity: 0.92;
+    }
+
+    .student-bar {
+      background: var(--card);
+      padding: 14px 16px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+    }
+
+    .student-bar input {
+      flex: 1 1 240px;
+      padding: 10px 12px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 0.95rem;
+    }
+
+    .score-pill {
+      background: #e0e7ff;
+      color: var(--primary);
+      font-weight: 700;
+      padding: 8px 14px;
+      border-radius: 999px;
+      font-size: 0.9rem;
+    }
+
+    .tabs {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+
+    @media (max-width: 640px) {
+      .tabs {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    .tab-btn {
+      background: var(--card);
+      border: 1px solid var(--border);
+      padding: 11px 10px;
+      border-radius: 10px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      color: var(--muted);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .tab-btn.active {
+      background: var(--primary);
+      color: #ffffff;
+      border-color: var(--primary);
+    }
+
+    .panel {
+      display: none;
+    }
+
+    .panel.active {
+      display: block;
+    }
+
+    .rappel-box {
+      background: var(--card);
+      border-left: 5px solid var(--accent);
+      border-radius: 12px;
+      padding: 16px 18px;
+      margin-bottom: 18px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+    }
+
+    .rappel-box h2 {
+      font-size: 1.05rem;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+
+    .rappel-box ul {
+      padding-left: 18px;
+      font-size: 0.92rem;
+      color: var(--muted);
+    }
+
+    .rappel-box li {
+      margin-bottom: 6px;
+    }
+
+    .exercise-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px 18px;
+      margin-bottom: 14px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+    }
+
+    .exercise-title {
+      font-weight: 700;
+      margin-bottom: 10px;
+      color: var(--text);
+      font-size: 1rem;
+    }
+
+    .badge {
+      display: inline-block;
+      background: #e2e8f0;
+      color: #334155;
+      font-size: 0.78rem;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 6px;
+      margin-left: 6px;
+    }
+
+    .field-group {
+      margin-bottom: 10px;
+    }
+
+    .field-group label {
+      display: block;
+      font-size: 0.84rem;
+      font-weight: 600;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+
+    .field-group input {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 0.95rem;
+    }
+
+    .field-group input:focus {
+      outline: none;
+      border-color: var(--primary-light);
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .btn {
+      border: none;
+      border-radius: 8px;
+      padding: 10px 16px;
+      font-weight: 600;
+      font-size: 0.92rem;
+      cursor: pointer;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: #ffffff;
+    }
+
+    .btn-secondary {
+      background: #e2e8f0;
+      color: var(--text);
+    }
+
+    .feedback {
+      margin-top: 10px;
+      padding: 10px 12px;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      display: none;
+    }
+
+    .feedback.ok {
+      display: block;
+      background: var(--success-bg);
+      color: var(--success-text);
+    }
+
+    .feedback.err {
+      display: block;
+      background: var(--error-bg);
+      color: var(--error-text);
+    }
+
+    .vocab-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 10px;
+    }
+
+    .vocab-item {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 10px 12px;
+    }
+
+    .vocab-fr {
+      font-weight: 700;
+      color: var(--primary);
+    }
+
+    .vocab-es {
+      font-size: 0.88rem;
+      color: var(--muted);
+    }
+
+    .summary-box {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 18px;
+      margin-top: 18px;
+    }
+
+    textarea#report-output {
+      width: 100%;
+      min-height: 150px;
+      margin-top: 10px;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      font-family: monospace;
+      font-size: 0.88rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>La phrase interrogative et le corps humain</h1>
+      <p>Activités interactives de français — Entonation, « Est-ce que » et inversion</p>
+    </header>
+
+    <div class="student-bar">
+      <input type="text" id="student-name" placeholder="Nom et prénom de l'étudiant(e)..." />
+      <div class="score-pill" id="global-score">Score : 0 / 24</div>
+    </div>
+
+    <div class="rappel-box">
+      <h2>Rappel grammatical</h2>
+      <ul>
+        <li><strong>Forme 1 (Entonation) :</strong> Sujet + Verbo + Complemento + ? <em>(Ex. : Tu as mal à la gorge ?)</em></li>
+        <li><strong>Forme 2 (Est-ce que / Est-ce qu') :</strong> Est-ce que + Sujet + Verbo + ? <em>(Ex. : Est-ce qu'il protège sa peau ?)</em></li>
+        <li><strong>Forme 3 (Inversion) :</strong> Verbo + - + Pronombre + ? En 3.ª persona del singular se añade <strong>-t-</strong> si el verbo termina en vocal <em>(Ex. : Écoute-t-elle son cœur ?)</em>. En <em>passé composé</em> se invierte el auxiliar <em>(Ex. : As-tu touché ton nez ?)</em>.</li>
+      </ul>
+    </div>
+
+    <div class="tabs">
+      <button class="tab-btn active" onclick="switchTab('act1', this)">Activité 1 (8)</button>
+      <button class="tab-btn" onclick="switchTab('act2', this)">Activité 2 (8)</button>
+      <button class="tab-btn" onclick="switchTab('act3', this)">Activité 3 (8)</button>
+      <button class="tab-btn" onclick="switchTab('vocab', this)">Vocabulaire</button>
+    </div>
+
+    <section id="act1" class="panel active"></section>
+    <section id="act2" class="panel"></section>
+    <section id="act3" class="panel"></section>
+    <section id="vocab" class="panel">
+      <div class="vocab-grid" id="vocab-list"></div>
+    </section>
+
+    <div class="summary-box">
+      <strong>Exporter les résultats pour l'enseignant :</strong>
+      <div class="actions">
+        <button class="btn btn-primary" onclick="generateSummary()">Générer le résumé des réponses</button>
+        <button class="btn btn-secondary" onclick="copySummary()">Copier le texte</button>
+      </div>
+      <textarea id="report-output" readonly placeholder="Cliquez sur « Générer le résumé des réponses » lorsque vous avez terminé..."></textarea>
+    </div>
+  </div>
+
+  <script>
+    const vocabData = [
+      { fr: "Œil (m) / yeux (pl)", es: "Ojo / ojos" },
+      { fr: "Nez (m)", es: "Nariz" },
+      { fr: "Oreille (f)", es: "Oreja" },
+      { fr: "Bouche (f)", es: "Boca" },
+      { fr: "Lèvre (f)", es: "Labio" },
+      { fr: "Dent (f)", es: "Diente" },
+      { fr: "Langue (f)", es: "Lengua" },
+      { fr: "Sourcil (m)", es: "Ceja" },
+      { fr: "Cil (m)", es: "Pestaña" },
+      { fr: "Paupière (f)", es: "Párpado" },
+      { fr: "Gorge (f)", es: "Garganta" },
+      { fr: "Cœur (m)", es: "Corazón" },
+      { fr: "Estomac (m)", es: "Estómago" },
+      { fr: "Rein (m)", es: "Riñón" },
+      { fr: "Foie (m)", es: "Hígado" },
+      { fr: "Intestin (m)", es: "Intestino" },
+      { fr: "Veine (f)", es: "Vena" },
+      { fr: "Cerveau (m)", es: "Cerebro" },
+      { fr: "Peau (f)", es: "Piel" },
+      { fr: "Os (m)", es: "Hueso" },
+      { fr: "Sang (m)", es: "Sangre" },
+      { fr: "Poumon (m)", es: "Pulmón" }
+    ];
+
+    const activity1Data = [
+      {
+        prompt: "1. Tu as les yeux bleus.",
+        ans1: ["Tu as les yeux bleus ?"],
+        ans2: ["Est-ce que tu as les yeux bleus ?"],
+        ans3: ["As-tu les yeux bleus ?"]
+      },
+      {
+        prompt: "2. Il protège sa peau du soleil.",
+        ans1: ["Il protège sa peau du soleil ?"],
+        ans2: ["Est-ce qu'il protège sa peau du soleil ?"],
+        ans3: ["Protège-t-il sa peau du soleil ?"]
+      },
+      {
+        prompt: "3. Elle ouvre la bouche chez le dentiste.",
+        ans1: ["Elle ouvre la bouche chez le dentiste ?"],
+        ans2: ["Est-ce qu'elle ouvre la bouche chez le dentiste ?"],
+        ans3: ["Ouvre-t-elle la bouche chez le dentiste ?"]
+      },
+      {
+        prompt: "4. Nous écoutons les battements du cœur.",
+        ans1: ["Nous écoutons les battements du cœur ?"],
+        ans2: ["Est-ce que nous écoutons les battements du cœur ?"],
+        ans3: ["Écoutons-nous les battements du cœur ?"]
+      },
+      {
+        prompt: "5. Vous avez mal à l'estomac.",
+        ans1: ["Vous avez mal à l'estomac ?"],
+        ans2: ["Est-ce que vous avez mal à l'estomac ?"],
+        ans3: ["Avez-vous mal à l'estomac ?"]
+      },
+      {
+        prompt: "6. Ils examinent les poumons du patient.",
+        ans1: ["Ils examinent les poumons du patient ?"],
+        ans2: ["Est-ce qu'ils examinent les poumons du patient ?"],
+        ans3: ["Examinent-ils les poumons du patient ?"]
+      },
+      {
+        prompt: "7. Elle a nettoyé ses oreilles ce matin.",
+        ans1: ["Elle a nettoyé ses oreilles ce matin ?"],
+        ans2: ["Est-ce qu'elle a nettoyé ses oreilles ce matin ?"],
+        ans3: ["A-t-elle nettoyé ses oreilles ce matin ?"]
+      },
+      {
+        prompt: "8. Tu as touché ton nez.",
+        ans1: ["Tu as touché ton nez ?"],
+        ans2: ["Est-ce que tu as touché ton nez ?"],
+        ans3: ["As-tu touché ton nez ?"]
+      }
+    ];
+
+    const activity2Data = [
+      {
+        prompt: "1. _____ (Avoir / il) un problème au foie ?",
+        answers: ["A-t-il un problème au foie ?"]
+      },
+      {
+        prompt: "2. _____ (Sentir / elle) une douleur dans la gorge ?",
+        answers: ["Sent-elle une douleur dans la gorge ?"]
+      },
+      {
+        prompt: "3. _____ (Regarder / tu) les cils et les sourcils dans le miroir ?",
+        answers: ["Regardes-tu les cils et les sourcils dans le miroir ?"]
+      },
+      {
+        prompt: "4. _____ (Fermer / il) les paupières pour dormir ?",
+        answers: ["Ferme-t-il les paupières pour dormir ?"]
+      },
+      {
+        prompt: "5. _____ (Avoir / ils) le même groupe sanguin (le sang) ?",
+        answers: ["Ont-ils le même groupe sanguin (le sang) ?", "Ont-ils le même groupe sanguin ?"]
+      },
+      {
+        prompt: "6. _____ (Baisser / elle) la langue pour l'examen médical ?",
+        answers: ["Baisse-t-elle la langue pour l'examen médical ?"]
+      },
+      {
+        prompt: "7. _____ (Comprendre / vous) le fonctionnement du cerveau humain ?",
+        answers: ["Comprenez-vous le fonctionnement du cerveau humain ?"]
+      },
+      {
+        prompt: "8. _____ (Guérir / il — passé composé avec « avoir ») sa fracture de l'os ?",
+        answers: ["A-t-il guéri sa fracture de l'os ?"]
+      }
+    ];
+
+    const activity3Data = [
+      {
+        prompt: "1. Preguntar al paciente si tiene dolor en los dientes.",
+        tag: "Forma con inversión",
+        answers: ["As-tu mal aux dents ?", "Avez-vous mal aux dents ?"]
+      },
+      {
+        prompt: "2. Preguntar si ella tiene los labios secos.",
+        tag: "Forma con « est-ce que »",
+        answers: ["Est-ce qu'elle a les lèvres sèches ?"]
+      },
+      {
+        prompt: "3. Preguntar si él ha tenido problemas en los riñones.",
+        tag: "Inversión en passé composé",
+        answers: ["A-t-il eu des problèmes aux reins ?"]
+      },
+      {
+        prompt: "4. Preguntar si ustedes cuidan bien su intestino.",
+        tag: "Forma con entonación",
+        answers: ["Vous prenez bien soin de votre intestin ?", "Vous soignez bien votre intestin ?"]
+      },
+      {
+        prompt: "5. Preguntar si la enfermera observa la vena del brazo.",
+        tag: "Forma con « est-ce que »",
+        answers: ["Est-ce que l'infirmière observe la veine du bras ?"]
+      },
+      {
+        prompt: "6. Preguntar si él respira bien por la nariz.",
+        tag: "Inversión con « -t- »",
+        answers: ["Respire-t-il bien par le nez ?"]
+      },
+      {
+        prompt: "7. Preguntar si ellos sienten fatiga en el corazón después de correr.",
+        tag: "Forma con « est-ce que »",
+        answers: ["Est-ce qu'ils sentent de la fatigue au cœur après avoir couru ?", "Est-ce qu'ils sentent une fatigue au cœur après avoir couru ?"]
+      },
+      {
+        prompt: "8. Preguntar si tú tienes la garganta irritada hoy.",
+        tag: "Forma con inversión",
+        answers: ["As-tu la gorge irritée aujourd'hui ?"]
+      }
+    ];
+
+    const scores = new Array(24).fill(false);
+
+    function normalize(str) {
+      return str
+        .toLowerCase()
+        .trim()
+        .replace(/[’']/g, "'")
+        .replace(/\s+\?/g, "?")
+        .replace(/\s+/g, " ");
+    }
+
+    function updateGlobalScore() {
+      const total = scores.filter(Boolean).length;
+      document.getElementById("global-score").textContent = `Score : ${total} / 24`;
+    }
+
+    function renderActivity1() {
+      const container = document.getElementById("act1");
+      container.innerHTML = `<div class="exercise-card"><p><strong>Consigne :</strong> Transformez les propositions déclaratives suivantes en propositions interrogatives en utilisant les trois formes étudiées.</p></div>`;
+      activity1Data.forEach((item, idx) => {
+        const card = document.createElement("div");
+        card.className = "exercise-card";
+        card.innerHTML = `
+          <div class="exercise-title">${item.prompt}</div>
+          <div class="field-group">
+            <label>Forme 1 — Intonation :</label>
+            <input type="text" id="a1-${idx}-1" placeholder="Ex. : Tu as... ?" />
+          </div>
+          <div class="field-group">
+            <label>Forme 2 — Est-ce que / Est-ce qu' :</label>
+            <input type="text" id="a1-${idx}-2" placeholder="Ex. : Est-ce que..." />
+          </div>
+          <div class="field-group">
+            <label>Forme 3 — Inversion :</label>
+            <input type="text" id="a1-${idx}-3" placeholder="Ex. : As-tu..." />
+          </div>
+          <div class="actions">
+            <button class="btn btn-primary" onclick="checkAct1(${idx})">Vérifier</button>
+          </div>
+          <div class="feedback" id="fb-a1-${idx}"></div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    function checkAct1(idx) {
+      const item = activity1Data[idx];
+      const v1 = normalize(document.getElementById(`a1-${idx}-1`).value);
+      const v2 = normalize(document.getElementById(`a1-${idx}-2`).value);
+      const v3 = normalize(document.getElementById(`a1-${idx}-3`).value);
+      const ok1 = item.ans1.some(a => normalize(a) === v1);
+      const ok2 = item.ans2.some(a => normalize(a) === v2);
+      const ok3 = item.ans3.some(a => normalize(a) === v3);
+      const fb = document.getElementById(`fb-a1-${idx}`);
+
+      if (ok1 && ok2 && ok3) {
+        scores[idx] = true;
+        fb.className = "feedback ok";
+        fb.textContent = "Excellent ! Les trois formes interrogatives sont correctes.";
+      } else {
+        scores[idx] = false;
+        fb.className = "feedback err";
+        fb.innerHTML = `Vérifiez vos réponses :<br>• Intonation : <strong>${item.ans1[0]}</strong><br>• Est-ce que : <strong>${item.ans2[0]}</strong><br>• Inversion : <strong>${item.ans3[0]}</strong>`;
+      }
+      updateGlobalScore();
+    }
+
+    function renderActivity2() {
+      const container = document.getElementById("act2");
+      container.innerHTML = `<div class="exercise-card"><p><strong>Consigne :</strong> Écrivez la phrase interrogative complète en appliquant correctement l'inversion verbo-sujet et l'ajout du « -t- » euphonique si nécessaire.</p></div>`;
+      activity2Data.forEach((item, idx) => {
+        const card = document.createElement("div");
+        card.className = "exercise-card";
+        card.innerHTML = `
+          <div class="exercise-title">${item.prompt}</div>
+          <div class="field-group">
+            <input type="text" id="a2-${idx}" placeholder="Écrivez la question complète..." />
+          </div>
+          <div class="actions">
+            <button class="btn btn-primary" onclick="checkAct2(${idx})">Vérifier</button>
+          </div>
+          <div class="feedback" id="fb-a2-${idx}"></div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    function checkAct2(idx) {
+      const item = activity2Data[idx];
+      const val = normalize(document.getElementById(`a2-${idx}`).value);
+      const ok = item.answers.some(a => normalize(a) === val);
+      const fb = document.getElementById(`fb-a2-${idx}`);
+
+      if (ok) {
+        scores[8 + idx] = true;
+        fb.className = "feedback ok";
+        fb.textContent = "Très bien ! La règle d'inversion est bien appliquée.";
+      } else {
+        scores[8 + idx] = false;
+        fb.className = "feedback err";
+        fb.innerHTML = `Réponse attendue : <strong>${item.answers[0]}</strong>`;
+      }
+      updateGlobalScore();
+    }
+
+    function renderActivity3() {
+      const container = document.getElementById("act3");
+      container.innerHTML = `<div class="exercise-card"><p><strong>Consigne :</strong> Vous êtes médecin. Formulez la question en français en utilisant la forme demandée.</p></div>`;
+      activity3Data.forEach((item, idx) => {
+        const card = document.createElement("div");
+        card.className = "exercise-card";
+        card.innerHTML = `
+          <div class="exercise-title">${item.prompt} <span class="badge">${item.tag}</span></div>
+          <div class="field-group">
+            <input type="text" id="a3-${idx}" placeholder="Formulez la question en français..." />
+          </div>
+          <div class="actions">
+            <button class="btn btn-primary" onclick="checkAct3(${idx})">Vérifier</button>
+          </div>
+          <div class="feedback" id="fb-a3-${idx}"></div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    function checkAct3(idx) {
+      const item = activity3Data[idx];
+      const val = normalize(document.getElementById(`a3-${idx}`).value);
+      const ok = item.answers.some(a => normalize(a) === val);
+      const fb = document.getElementById(`fb-a3-${idx}`);
+
+      if (ok) {
+        scores[16 + idx] = true;
+        fb.className = "feedback ok";
+        fb.textContent = "Parfait ! Question bien formulée.";
+      } else {
+        scores[16 + idx] = false;
+        fb.className = "feedback err";
+        fb.innerHTML = `Proposition modèle : <strong>${item.answers[0]}</strong>`;
+      }
+      updateGlobalScore();
+    }
+
+    function renderVocab() {
+      const grid = document.getElementById("vocab-list");
+      vocabData.forEach(v => {
+        const div = document.createElement("div");
+        div.className = "vocab-item";
+        div.innerHTML = `<div class="vocab-fr">${v.fr}</div><div class="vocab-es">${v.es}</div>`;
+        grid.appendChild(div);
+      });
+    }
+
+    function switchTab(id, btn) {
+      document.querySelectorAll(".panel").forEach(p => p.classList.remove("active"));
+      document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
+      document.getElementById(id).classList.add("active");
+      btn.classList.add("active");
+    }
+
+    function generateSummary() {
+      const name = document.getElementById("student-name").value.trim() || "Étudiant(e) sans nom";
+      const total = scores.filter(Boolean).length;
+      const lines = [
+        `ÉVALUATION : La phrase interrogative et le corps humain`,
+        `Étudiant(e) : ${name}`,
+        `Score global : ${total} / 24`,
+        `----------------------------------------`,
+        `Activité 1 (Transformation) : ${scores.slice(0, 8).filter(Boolean).length} / 8`,
+        `Activité 2 (Inversion et -t-) : ${scores.slice(8, 16).filter(Boolean).length} / 8`,
+        `Activité 3 (Consultation médicale) : ${scores.slice(16, 24).filter(Boolean).length} / 8`
+      ];
+      document.getElementById("report-output").value = lines.join("\n");
+    }
+
+    function copySummary() {
+      const area = document.getElementById("report-output");
+      if (!area.value) generateSummary();
+      area.select();
+      document.execCommand("copy");
+      alert("Résumé copié dans le presse-papiers !");
+    }
+
+    renderActivity1();
+    renderActivity2();
+    renderActivity3();
+    renderVocab();
+  </script>
+</body>
+</html>
